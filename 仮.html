@@ -1,0 +1,1155 @@
+<!-- Chosen Palette: Corporate Trust & Action (Slate/Navy Background, Teal for Positive/Growth, Rose for Challenges/Deficits, Amber for Vision/Highlights/Latest Month) -->
+<!-- Application Structure Plan: 
+    Strategic Validation & January Report - PRODUCTION READY (NO IMAGES).
+    * NO IMAGES VERSION: Removed external image dependencies and styled with CSS/Gradients.
+    * OGP READY: Added meta tags for social/chat sharing.
+    * PRINT READY: Optimized `@media print` rules.
+-->
+
+<!DOCTYPE html>
+<html lang="ja" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <!-- SEO & OGP Tags for Public Sharing -->
+    <meta name="description" content="株式会社NEXT CONSTRUCTION 1月度定例会資料。第3期上半期の総括および1月の最新実績・下期戦略方針・本部組織体制。">
+    <meta property="og:title" content="1月定例会資料 | 株式会社NEXT CONSTRUCTION">
+    <meta property="og:description" content="1月度実績（稼働124名・粗利率10.1%達成）。労働集約型から「資産創出型」モデルへの転換と組織強化。">
+    <meta property="og:type" content="article">
+    <meta property="og:site_name" content="NEXT CONSTRUCTION 業績報告">
+    <!-- ↓公開先のURLが決まったら以下を書き換えてください -->
+    <meta property="og:url" content="https://example.com/report"> 
+    <!-- ↓SNS等でシェアされた際に表示されるサムネイル画像です -->
+    <meta property="og:image" content="https://placehold.co/1200x630/0f766e/ffffff?text=NEXT+CONSTRUCTION+Report"> 
+    
+    <title>1月定例会資料 | NEXT CONSTRUCTION</title>
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.0.0"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+    
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🚀</text></svg>">
+
+    <style>
+        body { font-family: 'Noto Sans JP', sans-serif; background-color: #f8fafc; color: #334155; }
+        
+        section {
+            min-height: 85vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            padding-top: 5rem;
+            padding-bottom: 5rem;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+        }
+        
+        section.is-visible { opacity: 1; transform: translateY(0); }
+
+        .chart-wrapper {
+            position: relative;
+            height: 45vh;
+            width: 100%;
+            max-height: 450px;
+        }
+
+        /* Diagrams & Blocks */
+        .bs-block {
+            display: flex; align-items: center; justify-content: center;
+            color: white; font-weight: bold; padding: 1rem; border-radius: 0.25rem;
+            box-shadow: inset 0 0 0 1px rgba(0,0,0,0.1);
+        }
+        .funnel-stage {
+            clip-path: polygon(5% 0%, 95% 0%, 85% 100%, 15% 100%);
+            display: flex; align-items: center; justify-content: center;
+            font-weight: bold; padding: 1rem; position: relative; z-index: 10;
+            margin-bottom: -15px;
+        }
+        .process-arrow {
+            display: inline-block;
+            width: 0; height: 0;
+            border-top: 20px solid transparent;
+            border-bottom: 20px solid transparent;
+            border-left: 30px solid #cbd5e1;
+            margin: 0 10px;
+        }
+
+        @media print {
+            aside, header, #mobile-menu, .no-print { display: none !important; }
+            body { display: block; background: white; color: black; }
+            main { margin-left: 0 !important; padding: 0 !important; }
+            section {
+                min-height: auto !important; height: auto !important;
+                page-break-inside: avoid;
+                padding-top: 2rem !important; padding-bottom: 2rem !important;
+                opacity: 1 !important; transform: none !important;
+                border-bottom: 1px solid #e2e8f0;
+            }
+            .chart-wrapper { height: 350px !important; page-break-inside: avoid; }
+            a { text-decoration: none; color: black; }
+            .bg-slate-900 { background-color: white !important; color: black !important; }
+            .text-white { color: black !important; }
+        }
+    </style>
+</head>
+<body class="flex">
+
+    <!-- Sidebar Navigation (Sticky) -->
+    <aside class="w-64 bg-slate-900 text-slate-300 hidden xl:flex flex-col shadow-xl fixed h-screen z-50 overflow-y-auto print:hidden scrollbar-hide">
+        <div class="p-6 border-b border-slate-800 shrink-0">
+            <h1 class="text-white font-bold text-lg tracking-wide leading-tight">NEXT CONSTRUCTION<br><span class="text-xs font-normal text-amber-400">1月度 定例会資料</span></h1>
+        </div>
+        <nav class="flex-1 py-4 pb-20">
+            <ul class="space-y-1 px-2 text-xs font-medium" id="sidebar-menu">
+                <li class="text-slate-500 px-4 py-1 mt-2 mb-1 uppercase tracking-widest text-[10px]">Overview</li>
+                <li><a href="#section-1" class="nav-link block px-4 py-1.5 rounded hover:bg-slate-800 transition-colors" data-target="section-1">1. 表紙</a></li>
+                <li><a href="#section-2" class="nav-link block px-4 py-1.5 rounded hover:bg-slate-800 transition-colors" data-target="section-2">2. 上半期 総括</a></li>
+                <li><a href="#section-3" class="nav-link block px-4 py-1.5 rounded hover:bg-slate-800 transition-colors text-amber-300 font-bold" data-target="section-3">3. 1月度 業績速報</a></li>
+                
+                <li class="text-slate-500 px-4 py-1 mt-4 mb-1 uppercase tracking-widest text-[10px]">Growth Model Validation</li>
+                <li><a href="#section-4" class="nav-link block px-4 py-1.5 rounded hover:bg-slate-800 transition-colors" data-target="section-4">4. 成長の軌跡 (T2D3)</a></li>
+                <li><a href="#section-5" class="nav-link block px-4 py-1.5 rounded hover:bg-slate-800 transition-colors" data-target="section-5">5. 相関と生産性向上</a></li>
+                <li><a href="#section-6" class="nav-link block px-4 py-1.5 rounded hover:bg-slate-800 transition-colors" data-target="section-6">6. 財務構造の解剖</a></li>
+                <li><a href="#section-7" class="nav-link block px-4 py-1.5 rounded hover:bg-slate-800 transition-colors" data-target="section-7">7. 投資の堀 (LTV/CAC)</a></li>
+                <li><a href="#section-8" class="nav-link block px-4 py-1.5 rounded hover:bg-slate-800 transition-colors" data-target="section-8">8. 人的資本創出モデル</a></li>
+                <li><a href="#section-9" class="nav-link block px-4 py-1.5 rounded hover:bg-slate-800 transition-colors" data-target="section-9">9. B/Sと資金繰り状況</a></li>
+                
+                <li class="text-slate-500 px-4 py-1 mt-4 mb-1 uppercase tracking-widest text-[10px]">Strategy & Action</li>
+                <li><a href="#section-10" class="nav-link block px-4 py-1.5 rounded hover:bg-slate-800 transition-colors text-teal-300" data-target="section-10">10. 戦略フェーズの転換</a></li>
+                <li><a href="#section-11" class="nav-link block px-4 py-1.5 rounded hover:bg-slate-800 transition-colors" data-target="section-11">11. 下期戦略方針</a></li>
+                <li><a href="#section-12" class="nav-link block px-4 py-1.5 rounded hover:bg-slate-800 transition-colors" data-target="section-12">12. アクションプラン</a></li>
+                
+                <li class="text-slate-500 px-4 py-1 mt-4 mb-1 uppercase tracking-widest text-[10px]">Jan HR & Team</li>
+                <li><a href="#section-13" class="nav-link block px-4 py-1.5 rounded hover:bg-slate-800 transition-colors" data-target="section-13">13. 1月度 採用サマリー</a></li>
+                <li><a href="#section-14" class="nav-link block px-4 py-1.5 rounded hover:bg-slate-800 transition-colors text-amber-300 font-bold" data-target="section-14">14. 1月度 本部組織体制</a></li>
+                <li><a href="#section-15" class="nav-link block px-4 py-1.5 rounded hover:bg-slate-800 transition-colors" data-target="section-15">15. 採用ファネル分析</a></li>
+                <li><a href="#section-16" class="nav-link block px-4 py-1.5 rounded hover:bg-slate-800 transition-colors" data-target="section-16">16. 入社実績と採用単価</a></li>
+                <li><a href="#section-17" class="nav-link block px-4 py-1.5 rounded hover:bg-slate-800 transition-colors" data-target="section-17">17. 2月目標・最適化策</a></li>
+                
+                <li class="text-slate-500 px-4 py-1 mt-4 mb-1 uppercase tracking-widest text-[10px]">Conclusion</li>
+                <li><a href="#section-18" class="nav-link block px-4 py-1.5 rounded hover:bg-slate-800 transition-colors text-amber-300" data-target="section-18">18. ビジョン2031</a></li>
+                <li><a href="#section-19" class="nav-link block px-4 py-1.5 rounded hover:bg-slate-800 transition-colors text-amber-300 font-bold" data-target="section-19">19. 1月定例会 まとめ</a></li>
+            </ul>
+        </nav>
+        <div class="fixed bottom-0 w-64 bg-slate-900 p-4 border-t border-slate-800 shrink-0 space-y-3 z-10">
+            <button onclick="window.print()" class="w-full flex items-center justify-center space-x-2 bg-slate-800 hover:bg-slate-700 text-white py-2 rounded text-sm transition-colors shadow-sm">
+                <span>🖨️ PDF保存 / 印刷</span>
+            </button>
+        </div>
+    </aside>
+
+    <!-- Main Content Area -->
+    <main class="flex-1 xl:ml-64 relative">
+        
+        <!-- Mobile Header -->
+        <header class="xl:hidden bg-slate-900 text-white p-4 flex justify-between items-center sticky top-0 z-40 shadow-md print:hidden">
+            <span class="font-bold text-sm">1月定例会資料</span>
+            <button onclick="toggleMobileMenu()" class="text-slate-300 hover:text-white text-xl">☰</button>
+        </header>
+
+        <!-- Mobile Menu Overlay -->
+        <div id="mobile-menu" class="fixed inset-0 bg-slate-900 bg-opacity-95 z-50 hidden flex flex-col justify-center items-center space-y-4 text-white p-8 print:hidden overflow-y-auto">
+            <a href="#section-2" onclick="toggleMobileMenu()" class="text-lg font-medium">上半期総括</a>
+            <a href="#section-3" onclick="toggleMobileMenu()" class="text-lg font-bold text-amber-400">1月度 業績速報</a>
+            <a href="#section-4" onclick="toggleMobileMenu()" class="text-lg font-medium">成長モデルの検証</a>
+            <a href="#section-11" onclick="toggleMobileMenu()" class="text-lg font-medium text-teal-300">下期戦略方針</a>
+            <a href="#section-14" onclick="toggleMobileMenu()" class="text-lg font-bold text-amber-400">1月度 本部組織体制</a>
+            <a href="#section-15" onclick="toggleMobileMenu()" class="text-lg font-medium">採用ファネル分析</a>
+            <a href="#section-19" onclick="toggleMobileMenu()" class="text-lg font-bold text-amber-400">1月定例会 まとめ</a>
+            <button onclick="window.print()" class="text-lg font-medium text-teal-400 mt-4">🖨️ PDF保存</button>
+            <button onclick="toggleMobileMenu()" class="mt-6 text-slate-400 border border-slate-600 px-6 py-2 rounded-full">閉じる</button>
+        </div>
+
+        <div class="px-6 md:px-12 lg:px-16 py-8 max-w-6xl mx-auto space-y-12">
+            
+            <!-- Section 1: Cover -->
+            <section id="section-1" class="min-h-screen relative flex justify-center items-center overflow-hidden text-center">
+                <!-- 背景グラデーション -->
+                <div class="absolute inset-0 z-0 bg-gradient-to-br from-slate-100 to-slate-200"></div>
+                
+                <div class="animate-fade-in-up w-full max-w-4xl relative z-10">
+                    <p class="text-amber-600 font-bold tracking-widest uppercase mb-4 bg-amber-50 inline-block px-4 py-1 rounded-full border border-amber-200 shadow-sm">1月度 定例会資料</p>
+                    <h1 class="text-4xl md:text-5xl lg:text-6xl font-black text-slate-900 leading-tight mb-6">
+                        第3期 上半期総括 <br class="md:hidden">および<br>
+                        <span class="text-2xl md:text-4xl font-bold text-amber-600">1月度 実績報告</span>
+                    </h1>
+                    <p class="text-xl text-slate-600 mb-12 font-medium">人的資本投資による急成長モデルの検証と下期戦略</p>
+                    
+                    <div class="inline-block bg-white/95 backdrop-blur px-10 py-5 rounded-2xl shadow-lg border border-slate-200 mb-12">
+                        <p class="font-bold text-slate-800 text-xl tracking-wide">株式会社NEXT CONSTRUCTION</p>
+                        <p class="text-slate-500 text-sm mt-1">2026年2月 開催</p>
+                    </div>
+
+                    <div>
+                        <a href="#section-2" class="no-print inline-flex flex-col items-center text-slate-500 hover:text-amber-600 transition-colors font-medium cursor-pointer">
+                            <span class="mb-2">報告を開始する</span>
+                            <span class="text-2xl animate-bounce">↓</span>
+                        </a>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Section 2: Executive Summary -->
+            <section id="section-2">
+                <div class="w-full">
+                    <div class="mb-10 border-b-4 border-slate-800 inline-block pb-2">
+                        <h2 class="text-3xl font-bold text-slate-900">第3期 上半期 総括</h2>
+                    </div>
+                    <p class="text-slate-500 mb-8 text-xl font-medium">労働集約型から「資産創出型」モデルへの転換を証明</p>
+                    
+                    <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                        <div class="bg-white p-8 rounded-2xl shadow-sm border border-slate-200 hover:shadow-md transition-shadow">
+                            <div class="text-4xl mb-4">🚀</div>
+                            <h3 class="text-lg font-bold text-slate-800 mb-3">T2D3級の市場浸透速度</h3>
+                            <p class="text-sm text-slate-600 leading-relaxed">
+                                上期終了時点で創業2年半。月商規模は100倍へ。SaaSスタートアップの成長指標「T2D3」に匹敵するスピードでシェアを奪取しています。
+                            </p>
+                        </div>
+                        <div class="bg-white p-8 rounded-2xl shadow-sm border border-slate-200 hover:shadow-md transition-shadow border-t-4 border-t-rose-500">
+                            <div class="text-4xl mb-4">📈</div>
+                            <h3 class="text-lg font-bold text-slate-800 mb-3">赤字は「資産購入費」</h3>
+                            <p class="text-sm text-slate-600 leading-relaxed">
+                                上期の営業損失は、1名採用単価100万円を投じる「厳選採用」によるもの。これはLTVを最大化するための戦略的フロントロード投資です。
+                            </p>
+                        </div>
+                        <div class="bg-white p-8 rounded-2xl shadow-sm border border-slate-200 hover:shadow-md transition-shadow border-t-4 border-t-teal-500">
+                            <div class="text-4xl mb-4">🏛️</div>
+                            <h3 class="text-lg font-bold text-slate-800 mb-3">生産性の向上</h3>
+                            <p class="text-sm text-slate-600 leading-relaxed">
+                                組織拡大に伴う<strong>生産性の向上（1人当売上+11%）</strong>を確認。独自の教育エンジンが、収益爆発への土台を確固たるものにしています。
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Section 3: Jan Financial Flash -->
+            <section id="section-3" class="scroll-mt-20">
+                <div class="w-full bg-amber-50 p-8 md:p-12 rounded-3xl border border-amber-200 shadow-sm">
+                    <div class="text-center mb-10">
+                        <p class="text-amber-600 font-black tracking-widest uppercase mb-2">★ LATEST RESULTS ★</p>
+                        <h2 class="text-4xl md:text-5xl font-black text-slate-900 mb-4">1月度 業績実績 <span class="text-xl font-normal text-slate-500">(仮決定数値)</span></h2>
+                        <p class="text-amber-800 font-medium text-lg">下期戦略の早期成果：課題であった粗利率を改善し、10%ラインを突破。</p>
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+                        <div class="bg-white p-6 rounded-2xl shadow-md border-b-4 border-b-teal-500 text-center flex flex-col justify-center transform hover:scale-105 transition-transform">
+                            <p class="text-sm font-bold text-slate-500 uppercase mb-2">稼働人数</p>
+                            <p class="text-5xl font-black text-slate-900">124<span class="text-xl font-bold text-slate-400">名</span></p>
+                            <p class="text-xs text-teal-600 mt-3 font-bold bg-teal-50 inline-block px-3 py-1 rounded-full mx-auto">12月比 +2名</p>
+                        </div>
+                        <div class="bg-white p-6 rounded-2xl shadow-md text-center flex flex-col justify-center transform hover:scale-105 transition-transform">
+                            <p class="text-sm font-bold text-slate-500 uppercase mb-2">1月度 売上高</p>
+                            <p class="text-4xl font-black text-slate-900">6,492<span class="text-lg font-bold text-slate-400">万円</span></p>
+                            <p class="text-xs text-slate-400 mt-3 font-mono tracking-wider">¥64,920,411</p>
+                        </div>
+                        <div class="bg-white p-6 rounded-2xl shadow-md text-center flex flex-col justify-center transform hover:scale-105 transition-transform">
+                            <p class="text-sm font-bold text-slate-500 uppercase mb-2">売上総利益 (粗利)</p>
+                            <p class="text-4xl font-black text-amber-500">655<span class="text-lg font-bold text-amber-400">万円</span></p>
+                            <p class="text-xs text-slate-400 mt-3 font-mono tracking-wider">原価: ¥58,365,660</p>
+                        </div>
+                        <div class="bg-slate-900 p-6 rounded-2xl shadow-xl text-center flex flex-col justify-center border-2 border-amber-400 transform hover:scale-105 transition-transform relative overflow-hidden">
+                            <div class="absolute -right-4 -top-4 bg-amber-500 text-white text-[10px] font-black px-8 py-1 rotate-45">達成</div>
+                            <p class="text-sm font-bold text-slate-400 uppercase mb-2">1月度 粗利率</p>
+                            <p class="text-5xl font-black text-amber-400">10.10<span class="text-2xl font-black text-amber-400">%</span></p>
+                            <p class="text-xs text-amber-200 mt-3 font-bold">下期目標(10-12%) 到達</p>
+                        </div>
+                    </div>
+                    
+                    <div class="bg-white p-6 rounded-xl border border-amber-100 flex items-start space-x-4 max-w-4xl mx-auto shadow-sm">
+                        <div class="text-3xl">💡</div>
+                        <div>
+                            <h4 class="font-bold text-slate-800 mb-1">戦略的意義：利益体質への転換を証明</h4>
+                            <p class="text-sm text-slate-600 leading-relaxed">
+                                上期の最大の課題であった「低い粗利率（累計7.3%）」に対し、下期戦略である<strong>「ユニットエコノミクスの改善（派遣単価見直し・原価適正化）」</strong>が即座に機能しました。1月度で早くも目標である10%台に到達し、利益創出フェーズへ確実にシフトしています。
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Section 4: Growth Trajectory -->
+            <section id="section-4">
+                <div class="w-full">
+                    <h2 class="text-3xl font-bold text-slate-900 mb-2">成長の軌跡：市場浸透の加速</h2>
+                    <p class="text-slate-500 mb-8">創業2年半で月商規模は100倍へ。非連続な成長を実現。</p>
+                    
+                    <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-200">
+                        <div class="chart-wrapper">
+                            <canvas id="salesOnlyChart"></canvas>
+                        </div>
+                        <div class="mt-6 p-4 bg-slate-50 rounded-lg text-sm text-slate-700 text-center border border-slate-200">
+                            <strong>分析：</strong> 1月度も過去最高となる月商6,492万円を記録。ニッチトップ戦略（設備・電気サブコン特化）により、SaaS企業並みのスピードで市場シェアを獲得し続けています。
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Section 5: Headcount & Productivity -->
+            <section id="section-5">
+                <div class="w-full">
+                    <div class="flex flex-col md:flex-row md:items-end justify-between mb-8">
+                        <div>
+                            <h2 class="text-3xl font-bold text-slate-900 mb-2">稼働人数と売上の相関</h2>
+                            <p class="text-slate-500">採用・稼働の拡大が事業成長に直結。1月度は124名稼働を達成。</p>
+                        </div>
+                        <div class="mt-4 md:mt-0">
+                            <span class="bg-amber-100 text-amber-800 font-bold px-4 py-2 rounded-lg text-sm">1月 稼働人数 124名</span>
+                        </div>
+                    </div>
+                    
+                    <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                        <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-200">
+                            <h3 class="text-center font-bold text-slate-700 mb-4 text-sm">稼働人数と売上 (Input = Output)</h3>
+                            <div class="chart-wrapper" style="height: 300px;">
+                                <canvas id="growthChart"></canvas>
+                            </div>
+                        </div>
+
+                        <div class="space-y-6 flex flex-col justify-center">
+                            <div class="bg-white p-8 rounded-2xl shadow-sm border border-slate-200 text-center">
+                                <p class="text-sm font-bold text-slate-500 uppercase mb-4">1人当たり売上推移 (生産性)</p>
+                                <div class="flex justify-between items-center px-4">
+                                    <div class="text-slate-400">
+                                        <p class="text-xs">第1期末</p>
+                                        <p class="text-xl font-bold">47.5<span class="text-sm">万</span></p>
+                                    </div>
+                                    <div class="text-slate-300">➔</div>
+                                    <div class="text-slate-500">
+                                        <p class="text-xs">第2期末</p>
+                                        <p class="text-xl font-bold">46.8<span class="text-sm">万</span></p>
+                                    </div>
+                                    <div class="text-teal-400 font-bold">➔</div>
+                                    <div class="text-teal-700">
+                                        <p class="text-xs font-bold">現在 (2026.01)</p>
+                                        <p class="text-3xl font-black">52.3<span class="text-lg">万</span></p>
+                                    </div>
+                                </div>
+                                <div class="mt-6 bg-teal-50 border border-teal-100 p-3 rounded-lg text-teal-800 text-sm font-bold">
+                                    生産性 +11% 向上
+                                </div>
+                            </div>
+                            <p class="text-sm text-slate-600 leading-relaxed px-2">
+                                通常、急拡大期には教育不足により生産性が低下します（収穫逓減）。しかし当社は逆に単価が上昇しており、<strong>「スケーラブルな教育エンジン」</strong>が機能している証左となっています。
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Section 6: Financial Anatomy -->
+            <section id="section-6">
+                <div class="w-full">
+                    <h2 class="text-3xl font-bold text-slate-900 mb-2">財務構造の解剖：赤字の正体</h2>
+                    <p class="text-slate-500 mb-8">上期の営業損失は、将来の収益源となる「資産」を購入しているフェーズ。</p>
+
+                    <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
+                        <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-200">
+                            <h3 class="text-center font-bold text-slate-700 mb-4 text-sm">上期累計 コスト構成比</h3>
+                            <div class="chart-wrapper" style="height: 300px;">
+                                <canvas id="costChart"></canvas>
+                            </div>
+                        </div>
+                        
+                        <div class="space-y-6">
+                            <div class="p-6 rounded-xl border border-slate-200 bg-white shadow-sm border-l-4 border-l-rose-500">
+                                <h4 class="font-bold text-slate-800 mb-2">構造的欠陥ではない</h4>
+                                <p class="text-sm text-slate-600 leading-relaxed">
+                                    派遣人件費率は約65%で安定推移しています。上期の営業損失（-4.4%）の主因は、対売上比23%を占める<strong>「業務制作費（採用・教育費）」</strong>という裁量的支出でした。
+                                </p>
+                            </div>
+                            <div class="p-6 rounded-xl bg-slate-900 text-white shadow-md">
+                                <h4 class="font-bold text-teal-400 mb-2">先行投資の合理性</h4>
+                                <p class="text-sm text-slate-300 leading-relaxed">
+                                    これは無駄なコストではなく、市場に存在しない専門人材を自社で「製造」するための投資です。この<strong>「製造コスト（1名約100万円）」</strong>が、一時的な赤字の正体です。
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Section 7: Moat (LTV/CAC) -->
+            <section id="section-7">
+                <div class="w-full">
+                    <h2 class="text-3xl font-bold text-slate-900 mb-2">投資対効果の検証：LTV / CAC</h2>
+                    <p class="text-slate-500 mb-8">競合に対する「投資の堀（Moat）」の源泉。</p>
+
+                    <div class="bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden">
+                        <div class="grid grid-cols-1 md:grid-cols-2 divide-y md:divide-y-0 md:divide-x divide-slate-200">
+                            <div class="p-8 bg-slate-50">
+                                <h3 class="text-lg font-bold text-slate-700 mb-6 text-center">一般的な競合戦略 <span class="block text-xs font-normal text-slate-500 mt-1">(低障壁)</span></h3>
+                                <ul class="space-y-4">
+                                    <li class="flex justify-between items-center border-b border-slate-200 pb-2"><span class="text-sm text-slate-500">採用コスト (CAC)</span><span class="font-bold text-slate-700">30〜50万円 (安価)</span></li>
+                                    <li class="flex justify-between items-center border-b border-slate-200 pb-2"><span class="text-sm text-slate-500">離職率 (Churn)</span><span class="font-bold text-rose-600">35% (高)</span></li>
+                                    <li class="pt-4 text-center"><span class="inline-block bg-slate-200 text-slate-600 px-4 py-2 rounded-lg text-sm font-bold w-full">結果: 投資回収前に離職 (空振り)</span></li>
+                                </ul>
+                            </div>
+                            <div class="p-8 bg-white relative">
+                                <div class="absolute top-0 right-0 w-16 h-16 bg-teal-100 rounded-bl-full flex items-start justify-end p-3"><span class="text-teal-600 text-xl">★</span></div>
+                                <h3 class="text-lg font-bold text-teal-800 mb-6 text-center">NEXTの戦略 <span class="block text-xs font-normal text-teal-600 mt-1">(高障壁)</span></h3>
+                                <ul class="space-y-4">
+                                    <li class="flex justify-between items-center border-b border-slate-100 pb-2"><span class="text-sm text-slate-500">採用コスト (CAC)</span><span class="font-bold text-slate-900">100万円 (高投資)</span></li>
+                                    <li class="flex justify-between items-center border-b border-slate-100 pb-2"><span class="text-sm text-slate-500">定着率</span><span class="font-bold text-teal-600">90% (高)</span></li>
+                                    <li class="flex justify-between items-center border-b border-slate-100 pb-2"><span class="text-sm text-slate-500">回収期間 (Payback)</span><span class="font-bold text-slate-900">12〜18ヶ月</span></li>
+                                    <li class="pt-2 text-center"><span class="inline-block bg-teal-600 text-white px-4 py-2 rounded-lg text-sm font-bold w-full shadow-md">結果: 長期的な利益創出 (High LTV)</span></li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="p-4 bg-slate-900 text-teal-300 text-sm text-center font-medium">
+                            100万円の採用費を払ってでも元が取れるのは、高い定着率があるからこそ。この「財務体力」と「定着力」が最大の参入障壁となります。
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Section 8: Asset Manufacturing Model -->
+            <section id="section-8">
+                <div class="w-full">
+                    <h2 class="text-3xl font-bold text-slate-900 mb-2 text-center">持続的優位性の源泉：人的資本創出モデル</h2>
+                    <p class="text-slate-500 mb-12 text-center">他社が模倣困難な「厳選採用」と「実践教育」の掛け合わせプロセス。</p>
+
+                    <div class="flex flex-col md:flex-row items-center justify-center space-y-6 md:space-y-0 w-full max-w-5xl mx-auto">
+                        <div class="bg-white border-2 border-slate-200 rounded-xl p-6 w-full md:w-1/4 text-center shadow-sm relative z-10">
+                            <p class="text-xs font-bold text-slate-400 uppercase tracking-widest mb-2">Entry</p>
+                            <div class="text-4xl mb-3">📄</div>
+                            <h3 class="font-bold text-slate-800">母集団形成</h3>
+                        </div>
+                        <div class="hidden md:block process-arrow"></div>
+                        <div class="md:hidden text-slate-300 text-2xl my-2">↓</div>
+                        <div class="bg-white border-2 border-slate-300 rounded-xl p-6 w-full md:w-1/4 text-center shadow-md relative z-10">
+                            <p class="text-xs font-bold text-slate-400 uppercase tracking-widest mb-2">Screening</p>
+                            <div class="text-4xl mb-3">🗜️</div>
+                            <h3 class="font-bold text-slate-800">厳選採用</h3>
+                        </div>
+                        <div class="hidden md:block process-arrow border-l-[30px] border-l-amber-400"></div>
+                        <div class="md:hidden text-amber-400 text-2xl my-2">↓</div>
+                        <div class="bg-amber-50 border-2 border-amber-400 rounded-xl p-6 w-full md:w-1/3 text-center shadow-lg relative z-20 transform md:scale-110">
+                            <p class="text-xs font-bold text-amber-600 uppercase tracking-widest mb-2">Manufacturing</p>
+                            <h3 class="font-black text-amber-800 text-lg mb-2">実践教育</h3>
+                            <p class="text-xs font-bold text-amber-600 mb-3">(Asset Value Up)</p>
+                        </div>
+                        <div class="hidden md:block process-arrow border-l-[30px] border-l-teal-500"></div>
+                        <div class="md:hidden text-teal-500 text-2xl my-2">↓</div>
+                        <div class="bg-teal-600 border-2 border-teal-700 rounded-xl p-6 w-full md:w-1/4 text-center shadow-xl relative z-10 text-white">
+                            <p class="text-xs font-bold text-teal-200 uppercase tracking-widest mb-2">Product</p>
+                            <div class="text-4xl mb-3">👷</div>
+                            <h3 class="font-bold">プロフェッショナル</h3>
+                            <div class="mt-3 bg-white text-teal-800 text-xs font-bold py-1 px-2 rounded">定着率 90%</div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Section 9: B/S & Liquidity -->
+            <section id="section-9">
+                <div class="w-full">
+                    <h2 class="text-3xl font-bold text-slate-900 mb-2">貸借対照表 (B/S) と手元流動性</h2>
+                    <p class="text-slate-500 mb-8">P/Lの赤字に関わらず、資金ショートリスクは極小化されています。（12月末時点）</p>
+
+                    <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
+                        <div class="bg-white p-8 rounded-2xl shadow-sm border border-slate-200">
+                            <h3 class="text-center font-bold text-slate-700 mb-6 text-sm">12月末時点 B/S 構造</h3>
+                            <div class="flex flex-col md:flex-row gap-4">
+                                <div class="flex-1 space-y-2">
+                                    <div class="text-center font-bold text-slate-500 mb-2 text-xs">資産 (Assets)</div>
+                                    <div class="bs-block bg-teal-500 h-24 flex-col"><span class="text-xs">現預金</span><span class="text-lg">6,134万円</span></div>
+                                    <div class="bs-block bg-teal-300 text-teal-900 h-32 flex-col"><span class="text-xs">売掛金</span><span class="text-lg">1.10億円</span></div>
+                                </div>
+                                <div class="hidden md:flex w-4 items-center justify-center text-slate-300 font-bold">=</div>
+                                <div class="flex-1 space-y-2">
+                                    <div class="text-center font-bold text-slate-500 mb-2 text-xs">負債・純資産 (Liab & Equity)</div>
+                                    <div class="bs-block bg-rose-400 h-20 flex-col"><span class="text-xs">流動負債</span></div>
+                                    <div class="bs-block bg-slate-800 h-36 flex-col mt-2"><span class="text-xs text-slate-300">純資産 (自己資本率 34.7%)</span><span class="text-lg">6,823万円</span></div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="space-y-6">
+                            <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-200">
+                                <h3 class="text-center font-bold text-slate-700 mb-4 text-sm">現預金残高の増加 (流動性向上)</h3>
+                                <div class="chart-wrapper" style="height: 200px;">
+                                    <canvas id="liquidityChart"></canvas>
+                                </div>
+                            </div>
+                            <div class="p-6 bg-slate-50 rounded-xl border border-slate-200 text-sm text-slate-700 leading-relaxed">
+                                売掛金の回収サイト管理が機能し、期首から<strong>+3,387万円</strong>のキャッシュ増を実現。潤沢な手元資金により、更なる成長投資への耐性を持っています。
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Section 10: Phase Transition -->
+            <section id="section-10" class="text-center">
+                <div class="w-full bg-slate-900 text-white p-12 md:p-20 rounded-3xl shadow-2xl overflow-hidden relative border border-slate-700">
+                    <div class="absolute inset-0 opacity-5 text-[15rem] font-black -mt-10 select-none tracking-tighter whitespace-nowrap overflow-hidden">J-CURVE</div>
+                    <div class="relative z-10 max-w-3xl mx-auto">
+                        <p class="text-amber-400 font-bold tracking-widest uppercase mb-6 flex items-center justify-center space-x-4">
+                            <span class="w-12 h-px bg-amber-400"></span>
+                            <span>Phase Transition</span>
+                            <span class="w-12 h-px bg-amber-400"></span>
+                        </p>
+                        <h2 class="text-4xl md:text-5xl font-black mb-8 leading-tight">
+                            Jカーブの出口と<br>
+                            収益爆発期への移行
+                        </h2>
+                        <p class="text-lg text-slate-300 font-light leading-relaxed mb-8">
+                            現状の営業損失は、将来の巨大な収益基盤を構築するための燃料でした。1月度の「粗利率10.1%達成」は、<strong>「投資フェーズ（Investment）」</strong>から<strong>「資産化・LTV最大化フェーズ（Profit Explosion）」</strong>へ移行した明確なシグナルです。
+                        </p>
+                        <div class="inline-block bg-white/10 px-6 py-3 rounded-lg border border-white/20 text-amber-300 font-bold">
+                            下半期テーマ：「拡大」から「質的転換」へ
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Section 11: H2 Strategy -->
+            <section id="section-11">
+                <div class="w-full">
+                    <div class="text-center mb-12">
+                        <p class="text-teal-600 font-bold tracking-widest uppercase mb-2">Structural Minimalism</p>
+                        <h2 class="text-4xl font-black text-slate-900 mb-4">下期戦略方針 <span class="text-2xl text-slate-500 font-normal">(2026年1月-6月)</span></h2>
+                    </div>
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                        <div class="bg-white rounded-2xl shadow-sm border border-slate-200 relative overflow-hidden flex flex-col border-t-8 border-t-teal-500 hover:-translate-y-1 transition-transform">
+                            <div class="p-8 flex-1 relative">
+                                <div class="text-4xl mb-4 text-slate-200 font-black mt-2">01</div>
+                                <h3 class="text-xl font-bold text-slate-800 mb-4">ユニットエコノミクスの改善</h3>
+                                <p class="text-sm text-slate-600 leading-relaxed">派遣単価見直しと原価適正化。<span class="text-amber-600 font-bold">1月時点で目標(10-12%)到達済。</span></p>
+                            </div>
+                        </div>
+                        <div class="bg-white rounded-2xl shadow-sm border border-slate-200 relative overflow-hidden flex flex-col border-t-8 border-t-amber-500 hover:-translate-y-1 transition-transform">
+                            <div class="p-8 flex-1 relative">
+                                <div class="text-4xl mb-4 text-slate-200 font-black mt-2">02</div>
+                                <h3 class="text-xl font-bold text-slate-800 mb-4">業務制作費の総枠管理</h3>
+                                <p class="text-sm text-slate-600 leading-relaxed">採用単価と教育コストの厳格な予算管理。月次での変動幅を抑える。</p>
+                            </div>
+                        </div>
+                        <div class="bg-white rounded-2xl shadow-sm border border-slate-200 relative overflow-hidden flex flex-col border-t-8 border-t-indigo-500 hover:-translate-y-1 transition-transform">
+                            <div class="p-8 flex-1 relative">
+                                <div class="text-4xl mb-4 text-slate-200 font-black mt-2">03</div>
+                                <h3 class="text-xl font-bold text-slate-800 mb-4">稼働率と定着率の維持</h3>
+                                <p class="text-sm text-slate-600 leading-relaxed">既存スタッフ(124名)の離職防止。長期稼働による採用コスト回収の最大化。</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Section 12: Action Plan -->
+            <section id="section-12">
+                <div class="w-full max-w-4xl mx-auto">
+                    <h2 class="text-3xl font-bold text-slate-900 mb-8 text-center">アクションプラン</h2>
+                    <div class="space-y-6">
+                        <div class="bg-white rounded-2xl shadow-sm border border-slate-200 flex flex-col md:flex-row overflow-hidden">
+                            <div class="bg-rose-50 md:w-1/3 p-6 flex flex-col justify-center border-b md:border-b-0 md:border-r border-slate-200">
+                                <p class="text-rose-600 font-bold uppercase tracking-wider text-sm">Phase 1: Immediate</p>
+                                <p class="text-2xl font-black text-slate-900">1月 - 2月</p>
+                            </div>
+                            <div class="p-6 md:w-2/3 flex flex-col justify-center space-y-3">
+                                <p class="text-slate-700 font-medium flex items-start"><span class="text-rose-500 mr-2">✓</span> 低マージン案件の洗い出しと契約条件の再交渉 <span class="text-xs bg-slate-100 px-2 py-0.5 rounded ml-2">実行中</span></p>
+                                <p class="text-slate-700 font-medium flex items-start"><span class="text-rose-500 mr-2">✓</span> 制作費超過要因の精査と、再発防止ルールの策定</p>
+                            </div>
+                        </div>
+                        <div class="bg-white rounded-2xl shadow-sm border border-slate-200 flex flex-col md:flex-row overflow-hidden">
+                            <div class="bg-teal-50 md:w-1/3 p-6 flex flex-col justify-center border-b md:border-b-0 md:border-r border-slate-200">
+                                <p class="text-teal-600 font-bold uppercase tracking-wider text-sm">Phase 2: Mid-term</p>
+                                <p class="text-2xl font-black text-slate-900">3月 - 6月</p>
+                            </div>
+                            <div class="p-6 md:w-2/3 flex flex-col justify-center space-y-3">
+                                <p class="text-slate-700 font-medium flex items-start"><span class="text-teal-500 mr-2">✓</span> 採用チャネルのROI分析（高コスト媒体の削減）</p>
+                                <p class="text-slate-700 font-medium flex items-start"><span class="text-teal-500 mr-2">✓</span> 研修期間の効率化による早期現場配属（売上早期化）</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Section 13: 1月採用実績サマリー -->
+            <section id="section-13">
+                <div class="w-full">
+                    <div class="text-center mb-10">
+                        <p class="text-indigo-600 font-bold tracking-widest uppercase mb-2">HR Analytics</p>
+                        <h2 class="text-3xl font-black text-slate-900 mb-4">1月度 採用実績サマリー</h2>
+                        <p class="text-slate-500">下期の最重要課題「業務制作費の適正化」に向けた現状分析</p>
+                    </div>
+
+                    <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-8">
+                        <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-200 text-center flex flex-col justify-center">
+                            <p class="text-sm font-bold text-slate-500 uppercase mb-2">採用人数 (目標対実績)</p>
+                            <div class="flex items-end justify-center space-x-2">
+                                <p class="text-5xl font-black text-slate-900">9</p>
+                                <p class="text-xl font-bold text-slate-400 mb-1">/ 14名</p>
+                            </div>
+                            <p class="text-xs text-rose-600 mt-2 font-medium bg-rose-50 inline-block px-2 py-1 rounded mx-auto">未達: 5名</p>
+                        </div>
+                        <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-200 text-center flex flex-col justify-center">
+                            <p class="text-sm font-bold text-slate-500 uppercase mb-2">総採用費用</p>
+                            <p class="text-3xl font-black text-slate-900">¥6,296,340</p>
+                            <div class="mt-4 text-xs text-slate-600 flex justify-center space-x-4">
+                                <span>新卒: ¥2.0M</span>
+                                <span>中途: ¥5.65M</span>
+                            </div>
+                        </div>
+                        <div class="bg-slate-900 p-6 rounded-2xl shadow-md text-center flex flex-col justify-center border border-slate-800">
+                            <p class="text-sm font-bold text-slate-400 uppercase mb-2">平均採用単価</p>
+                            <p class="text-4xl font-black text-teal-400">¥706,250</p>
+                            <p class="text-xs text-slate-300 mt-3 leading-relaxed">チャネル毎のROI改善が急務。</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- SECTION 14: 本部組織体制 (Team Structure) -->
+            <section id="section-14" class="scroll-mt-20">
+                <div class="w-full">
+                    <h2 class="text-3xl font-bold text-slate-900 mb-2">1月度 本部組織体制のアップデート</h2>
+                    <p class="text-slate-500 mb-8">事業拡大に伴う本部機能の強化。バックオフィス・営業・採用メンバーの増員を行いました。</p>
+
+                    <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-8">
+                        <div class="lg:col-span-1 space-y-4">
+                            <div class="bg-teal-50 border border-teal-200 p-5 rounded-xl shadow-sm">
+                                <p class="text-teal-800 font-black mb-3 flex items-center"><span class="text-xl mr-2">✨</span> NEWメンバー参画 (4名)</p>
+                                <ul class="text-sm text-teal-900 space-y-2 ml-2">
+                                    <li class="flex items-start"><span class="font-bold w-12 shrink-0">営業:</span> <span>所、柳澤</span></li>
+                                    <li class="flex items-start"><span class="font-bold w-12 shrink-0">採用:</span> <span>岡本、<span class="underline decoration-teal-400 underline-offset-2">澤田</span><span class="text-[10px] text-teal-600 ml-1 block">※面接官体制強化へ</span></span></li>
+                                </ul>
+                            </div>
+                            <div class="bg-slate-50 border border-slate-200 p-5 rounded-xl shadow-sm">
+                                <p class="text-slate-600 font-bold mb-3 flex items-center"><span class="text-xl mr-2">👋</span> 退職メンバー (1名)</p>
+                                <ul class="text-sm text-slate-600 space-y-2 ml-2">
+                                    <li class="flex items-start"><span class="font-bold w-12 shrink-0">採用:</span> <span>藤原</span></li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <div class="lg:col-span-2 bg-white border border-slate-200 p-6 md:p-8 rounded-xl shadow-sm">
+                            <div class="flex justify-between items-end border-b border-slate-100 pb-3 mb-6">
+                                <h3 class="text-xl font-bold text-slate-800">現行 本部メンバー</h3>
+                                <span class="bg-slate-800 text-white font-bold px-4 py-1 rounded-full text-sm">計 11名体制</span>
+                            </div>
+                            
+                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                                <div class="bg-teal-50 border border-teal-100 p-4 rounded-xl">
+                                    <p class="text-xs text-teal-600 font-bold mb-2 tracking-wider flex justify-between">
+                                        <span>営業部門</span> <span class="bg-teal-200 text-teal-800 px-2 py-0.5 rounded-full">5名</span>
+                                    </p>
+                                    <div class="text-sm text-slate-800 font-medium leading-loose">
+                                        <span class="bg-white border border-teal-200 px-2 py-1 rounded shadow-sm text-teal-700 font-bold mr-1">所 (NEW)</span> 
+                                        羽成 / 池部 / 矢部 / 
+                                        <span class="bg-white border border-teal-200 px-2 py-1 rounded shadow-sm text-teal-700 font-bold mr-1 inline-block mt-2">柳澤 (NEW)</span>
+                                    </div>
+                                </div>
+                                <div class="bg-amber-50 border border-amber-100 p-4 rounded-xl">
+                                    <p class="text-xs text-amber-600 font-bold mb-2 tracking-wider flex justify-between">
+                                        <span>採用部門</span> <span class="bg-amber-200 text-amber-800 px-2 py-0.5 rounded-full">2名</span>
+                                    </p>
+                                    <div class="text-sm text-slate-800 font-medium leading-loose">
+                                        <span class="bg-white border border-amber-200 px-2 py-1 rounded shadow-sm text-amber-700 font-bold mr-1">岡本 (NEW)</span>
+                                        <span class="bg-white border border-amber-200 px-2 py-1 rounded shadow-sm text-amber-700 font-bold mr-1 inline-block mt-2">澤田 (NEW)</span>
+                                    </div>
+                                </div>
+                                <div class="bg-slate-50 border border-slate-200 p-4 rounded-xl">
+                                    <p class="text-xs text-slate-500 font-bold mb-2 tracking-wider flex justify-between">
+                                        <span>管理部門</span> <span class="bg-slate-200 text-slate-600 px-2 py-0.5 rounded-full">3名</span>
+                                    </p>
+                                    <p class="text-sm text-slate-800 font-medium leading-loose">
+                                        吉田 / 菊池 / 秋本
+                                    </p>
+                                </div>
+                                <div class="bg-indigo-50 border border-indigo-100 p-4 rounded-xl">
+                                    <p class="text-xs text-indigo-600 font-bold mb-2 tracking-wider flex justify-between">
+                                        <span>研修部門</span> <span class="bg-indigo-200 text-indigo-800 px-2 py-0.5 rounded-full">1名</span>
+                                    </p>
+                                    <p class="text-sm text-slate-800 font-medium leading-loose">
+                                        津釜
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Section 15: 採用ファネル分析 -->
+            <section id="section-15">
+                <div class="w-full">
+                    <h2 class="text-3xl font-bold text-slate-900 mb-2">採用ファネルとチャネル別パフォーマンス (1月)</h2>
+                    <p class="text-slate-500 mb-8">「全体応募109名 → 承諾5名」の歩留まりと、集客元ごとの決定率の可視化。</p>
+
+                    <div class="grid grid-cols-1 xl:grid-cols-12 gap-8 items-start">
+                        <div class="xl:col-span-8 bg-white p-6 rounded-2xl shadow-sm border border-slate-200">
+                            <div class="chart-wrapper">
+                                <canvas id="funnelChart"></canvas>
+                            </div>
+                            <div class="mt-4 p-3 bg-rose-50 border border-rose-100 rounded-lg text-sm text-rose-800">
+                                <strong>課題インサイト：</strong> エージェント経由でしか「内定・承諾」に至っていない。SNS・媒体は母集団を形成しているものの、面接以降の歩留まりが低くCPAを悪化させている。
+                            </div>
+                        </div>
+                        <div class="xl:col-span-4 bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden">
+                            <table class="w-full text-xs text-right">
+                                <thead class="bg-slate-50 text-slate-600 border-b border-slate-200">
+                                    <tr>
+                                        <th class="px-3 py-3 text-left font-bold">フェーズ</th>
+                                        <th class="px-2 py-3">SNS</th>
+                                        <th class="px-2 py-3">媒体</th>
+                                        <th class="px-2 py-3 font-bold text-rose-600 bg-rose-50">ｴｰｼﾞｪﾝﾄ</th>
+                                        <th class="px-3 py-3 font-black text-slate-900 bg-slate-100">全体</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="divide-y divide-slate-100">
+                                    <tr class="hover:bg-slate-50"><td class="px-3 py-3 text-left font-medium text-slate-700">全体応募</td><td class="px-2 py-3">29</td><td class="px-2 py-3">38</td><td class="px-2 py-3 font-bold bg-rose-50/50">40</td><td class="px-3 py-3 font-black bg-slate-50">109</td></tr>
+                                    <tr class="hover:bg-slate-50"><td class="px-3 py-3 text-left font-medium text-slate-700">有効数</td><td class="px-2 py-3">17</td><td class="px-2 py-3">18</td><td class="px-2 py-3 font-bold bg-rose-50/50">40</td><td class="px-3 py-3 font-black bg-slate-50">76</td></tr>
+                                    <tr class="hover:bg-slate-50"><td class="px-3 py-3 text-left font-medium text-slate-700">面接数</td><td class="px-2 py-3">5</td><td class="px-2 py-3">6</td><td class="px-2 py-3 font-bold bg-rose-50/50">18</td><td class="px-3 py-3 font-black bg-slate-50">29</td></tr>
+                                    <tr class="hover:bg-slate-50"><td class="px-3 py-3 text-left font-medium text-slate-700">内定数</td><td class="px-2 py-3 text-slate-400">0</td><td class="px-2 py-3 text-slate-400">0</td><td class="px-2 py-3 font-bold text-rose-600 bg-rose-50/50">7</td><td class="px-3 py-3 font-black bg-slate-50">7</td></tr>
+                                    <tr class="hover:bg-slate-50"><td class="px-3 py-3 text-left font-medium text-slate-700">承諾</td><td class="px-2 py-3 text-slate-400">0</td><td class="px-2 py-3 text-slate-400">0</td><td class="px-2 py-3 font-bold text-rose-600 bg-rose-50/50">5</td><td class="px-3 py-3 font-black bg-slate-50">5</td></tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Section 16: 入社予定者データ -->
+            <section id="section-16">
+                <div class="w-full">
+                    <h2 class="text-3xl font-bold text-slate-900 mb-2">1月 入社実績リストと採用単価</h2>
+                    <p class="text-slate-500 mb-6">採用チャネルごとのコスト差が顕著。リファラル（紹介）の強化が平均単価を下げる鍵。</p>
+
+                    <div class="bg-white rounded-2xl shadow-sm border border-slate-200 overflow-x-auto">
+                        <table class="w-full text-sm text-left">
+                            <thead class="bg-slate-100 text-slate-600 border-b border-slate-200 text-xs uppercase tracking-wider">
+                                <tr>
+                                    <th class="px-6 py-4">入社日</th>
+                                    <th class="px-6 py-4">技術者名</th>
+                                    <th class="px-6 py-4">紹介会社 / チャネル</th>
+                                    <th class="px-6 py-4 text-right">採用単価</th>
+                                </tr>
+                            </thead>
+                            <tbody class="divide-y divide-slate-100">
+                                <tr class="hover:bg-slate-50"><td class="px-6 py-3 whitespace-nowrap">2026/01/01</td><td class="px-6 py-3 font-bold text-slate-800">仁平 秋弘</td><td class="px-6 py-3"><span class="bg-indigo-100 text-indigo-700 px-2 py-1 rounded text-xs">リファラル</span></td><td class="px-6 py-3 text-right font-medium text-indigo-700">¥100,000</td></tr>
+                                <tr class="hover:bg-slate-50"><td class="px-6 py-3 whitespace-nowrap">2026/01/06</td><td class="px-6 py-3 font-bold text-slate-800">岩渕 海人</td><td class="px-6 py-3"><span class="bg-indigo-100 text-indigo-700 px-2 py-1 rounded text-xs">リファラル</span></td><td class="px-6 py-3 text-right font-medium text-indigo-700">¥350,000</td></tr>
+                                <tr class="hover:bg-slate-50"><td class="px-6 py-3 whitespace-nowrap">2026/01/06</td><td class="px-6 py-3 font-bold text-slate-800">副島 慶香</td><td class="px-6 py-3">C9</td><td class="px-6 py-3 text-right font-medium text-slate-500">利益折半</td></tr>
+                                <tr class="bg-rose-50/30 hover:bg-rose-50"><td class="px-6 py-3 whitespace-nowrap">2026/01/06</td><td class="px-6 py-3 font-bold text-slate-800">江刺家 もも</td><td class="px-6 py-3">UPSET</td><td class="px-6 py-3 text-right font-bold text-rose-700">¥800,000</td></tr>
+                                <tr class="bg-rose-50/30 hover:bg-rose-50"><td class="px-6 py-3 whitespace-nowrap">2026/01/06</td><td class="px-6 py-3 font-bold text-slate-800">宇田川 颯斗</td><td class="px-6 py-3">GHLab.</td><td class="px-6 py-3 text-right font-bold text-rose-700">¥900,000</td></tr>
+                                <tr class="bg-rose-50/30 hover:bg-rose-50"><td class="px-6 py-3 whitespace-nowrap">2026/01/06</td><td class="px-6 py-3 font-bold text-slate-800">島 宏行</td><td class="px-6 py-3">XCHANGE</td><td class="px-6 py-3 text-right font-bold text-rose-700">¥900,000</td></tr>
+                                <tr class="bg-rose-50/30 hover:bg-rose-50"><td class="px-6 py-3 whitespace-nowrap">2026/01/19</td><td class="px-6 py-3 font-bold text-slate-800">古玉 聖華</td><td class="px-6 py-3">UZUZ</td><td class="px-6 py-3 text-right font-bold text-rose-700">¥900,000</td></tr>
+                                <tr class="bg-rose-50/30 hover:bg-rose-50"><td class="px-6 py-3 whitespace-nowrap">2026/01/19</td><td class="px-6 py-3 font-bold text-slate-800">松永 剛</td><td class="px-6 py-3">SAMURAIcareer</td><td class="px-6 py-3 text-right font-bold text-rose-700">¥800,000</td></tr>
+                                <tr class="bg-rose-50/30 hover:bg-rose-50"><td class="px-6 py-3 whitespace-nowrap">2026/01/19</td><td class="px-6 py-3 font-bold text-slate-800">福呂 飛翔</td><td class="px-6 py-3">アーシャル</td><td class="px-6 py-3 text-right font-bold text-rose-700">¥900,000</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Section 17: 2月採用目標・アクションプラン -->
+            <section id="section-17">
+                <div class="w-full">
+                    <div class="flex flex-col md:flex-row justify-between items-end mb-6">
+                        <div>
+                            <h2 class="text-3xl font-bold text-slate-900 mb-2">2月採用目標とアクションプラン</h2>
+                            <p class="text-slate-500">承諾10名必達に向けた、ファネル最適化策</p>
+                        </div>
+                        <div class="mt-4 md:mt-0 text-right">
+                            <p class="text-xs text-slate-400 mb-1">2月 目標承諾数</p>
+                            <p class="text-3xl font-black text-teal-600">10<span class="text-lg text-slate-500 font-normal">名</span></p>
+                        </div>
+                    </div>
+
+                    <div class="bg-slate-900 p-6 rounded-2xl shadow-md mb-8 flex flex-col sm:flex-row items-center justify-between text-white space-y-4 sm:space-y-0">
+                        <div class="text-center w-full sm:w-1/4 border-b sm:border-b-0 sm:border-r border-slate-700 pb-4 sm:pb-0">
+                            <p class="text-xs text-slate-400 uppercase tracking-widest mb-1">Target Application</p>
+                            <p class="text-3xl font-bold">150 <span class="text-sm font-normal">応募</span></p>
+                        </div>
+                        <div class="text-center w-full sm:w-1/4 border-b sm:border-b-0 sm:border-r border-slate-700 pb-4 sm:pb-0">
+                            <p class="text-xs text-slate-400 uppercase tracking-widest mb-1">Target Interview</p>
+                            <p class="text-3xl font-bold">50 <span class="text-sm font-normal">面接</span></p>
+                        </div>
+                        <div class="text-center w-full sm:w-1/4 border-b sm:border-b-0 sm:border-r border-slate-700 pb-4 sm:pb-0">
+                            <p class="text-xs text-slate-400 uppercase tracking-widest mb-1">Target Offer</p>
+                            <p class="text-3xl font-bold text-teal-300">15 <span class="text-sm font-normal text-white">内定</span></p>
+                        </div>
+                        <div class="text-center w-full sm:w-1/4">
+                            <p class="text-xs text-teal-400 uppercase tracking-widest mb-1">Target Accept</p>
+                            <p class="text-3xl font-black text-teal-400">10 <span class="text-sm font-normal text-white">承諾</span></p>
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div class="bg-white p-6 rounded-xl shadow-sm border border-slate-200 flex items-start space-x-4">
+                            <div class="bg-indigo-100 text-indigo-700 p-3 rounded-lg text-2xl">📢</div>
+                            <div>
+                                <h4 class="font-bold text-slate-800 mb-1">媒体運用の強化</h4>
+                                <p class="text-sm text-slate-600">ターゲット層に合わせた求人広告の最適化と露出拡大による母集団形成。</p>
+                            </div>
+                        </div>
+                        <div class="bg-white p-6 rounded-xl shadow-sm border border-slate-200 flex items-start space-x-4">
+                            <div class="bg-teal-100 text-teal-700 p-3 rounded-lg text-2xl">📝</div>
+                            <div>
+                                <h4 class="font-bold text-slate-800 mb-1">面接内容の改善</h4>
+                                <p class="text-sm text-slate-600">評価基準の明確化と「構造化面接」の導入による見極め精度と通過率の向上。</p>
+                            </div>
+                        </div>
+                        <div class="bg-white p-6 rounded-xl shadow-sm border border-slate-200 flex items-start space-x-4">
+                            <div class="bg-amber-100 text-amber-700 p-3 rounded-lg text-2xl">🤝</div>
+                            <div>
+                                <h4 class="font-bold text-slate-800 mb-1">人材会社向け説明会実施</h4>
+                                <p class="text-sm text-slate-600">パートナーシップ強化による、質の高い候補者紹介の促進。</p>
+                            </div>
+                        </div>
+                        <div class="bg-white p-6 rounded-xl shadow-sm border border-slate-200 flex items-start space-x-4">
+                            <div class="bg-rose-100 text-rose-700 p-3 rounded-lg text-2xl">👨‍💼</div>
+                            <div>
+                                <h4 class="font-bold text-slate-800 mb-1">澤田の面接本格デビュー</h4>
+                                <p class="text-sm text-slate-600">面接官体制の強化と新たな視点による採用力アップ。<span class="font-bold text-rose-600">（1月参画のNEWメンバー）</span></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Section 18: Vision 2031 -->
+            <section id="section-18">
+                <div class="w-full">
+                    <div class="text-center mb-10">
+                        <p class="text-amber-500 font-bold tracking-widest uppercase mb-2">Target 2031</p>
+                        <h2 class="text-3xl font-black text-slate-900 mb-4">将来予測：1,000名体制に向けたスケーラビリティ</h2>
+                        <p class="text-slate-500 max-w-2xl mx-auto">
+                            単なる派遣人数の拡大ではなく、有資格者の比率を高めることで顧客単価の向上と利益率の改善を同時に実現する。「量」から「質」への転換ビジョン。
+                        </p>
+                    </div>
+
+                    <div class="bg-white p-10 rounded-2xl shadow-sm border border-slate-200">
+                        <div class="flex flex-col items-center space-y-1 w-full max-w-lg mx-auto relative pb-8">
+                            <div class="absolute -left-10 top-1/2 bottom-0 w-1 bg-slate-200 hidden md:block"></div>
+                            <div class="absolute -left-12 top-1/2 text-slate-400 font-bold hidden md:block rotate-[-90deg] origin-left whitespace-nowrap">Quality / Margin UP</div>
+                            <div class="absolute -left-12 bottom-0 text-slate-400 text-2xl hidden md:block">↑</div>
+
+                            <div class="w-2/5 bg-amber-500 text-white text-center py-6 font-bold rounded-t-xl shadow-md z-30 flex flex-col justify-center">
+                                <span class="text-xs text-amber-200 mb-1">Top Tier</span><span class="text-lg">1級施工管理技士</span><span class="text-2xl font-black mt-1">200名</span>
+                            </div>
+                            <div class="w-3/5 bg-slate-800 text-white text-center py-6 font-bold shadow-md z-20 flex flex-col justify-center">
+                                <span class="text-xs text-slate-400 mb-1">Middle Tier</span><span class="text-lg">2級施工管理技士</span><span class="text-2xl font-black mt-1">400名</span>
+                            </div>
+                            <div class="w-4/5 bg-slate-200 text-slate-700 text-center py-6 font-bold rounded-b-xl shadow-md z-10 flex flex-col justify-center border-b-4 border-slate-300">
+                                <span class="text-xs text-slate-500 mb-1">Base Tier</span><span class="text-lg">一般施工管理・CAD</span><span class="text-2xl font-black mt-1">400名</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Section 19: Conclusion (Images Inserted) -->
+            <section id="section-19" class="min-h-[70vh] flex flex-col justify-center">
+                <div class="w-full">
+                    <h2 class="text-3xl font-black text-slate-900 mb-8 text-center border-b-4 border-amber-400 inline-block pb-2 mx-auto block w-max">1月定例会 まとめ</h2>
+                    
+                    <div class="overflow-x-auto bg-white rounded-xl shadow-md border-2 border-amber-200 max-w-3xl mx-auto mb-12 relative">
+                        <div class="absolute top-0 right-0 bg-amber-400 text-white text-xs font-bold px-3 py-1 rounded-bl-lg">最新実績</div>
+                        <table class="w-full text-left">
+                            <tbody class="divide-y divide-slate-100">
+                                <tr class="hover:bg-slate-50">
+                                    <th class="px-6 py-4 bg-amber-50/50 font-bold text-slate-700 w-1/2">1月度 月商 (Monthly Sales)</th>
+                                    <td class="px-6 py-4 font-black text-slate-900 text-2xl">6,492万円</td>
+                                </tr>
+                                <tr class="hover:bg-slate-50">
+                                    <th class="px-6 py-4 bg-amber-50/50 font-bold text-slate-700">1月度 粗利益 (Gross Margin)</th>
+                                    <td class="px-6 py-4 font-bold text-amber-600 text-xl">655万円 <span class="text-sm bg-amber-100 px-2 py-1 rounded text-amber-800 ml-2">粗利率 10.10% 達成</span></td>
+                                </tr>
+                                <tr class="hover:bg-slate-50">
+                                    <th class="px-6 py-4 bg-amber-50/50 font-bold text-slate-700">1月稼働人数 (Headcount)</th>
+                                    <td class="px-6 py-4 font-bold text-slate-900 text-xl">124名</td>
+                                </tr>
+                                <tr class="bg-slate-50 border-t-2 border-slate-200">
+                                    <th class="px-6 py-3 text-xs text-slate-500 font-normal" colspan="2">※参考値（12月末確定値）: 現預金残高 6,134万円 / 上半期累積損益 ▲1,547万円</th>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <!-- 結論ボックス (画像なしデザイン版) -->
+                    <div class="bg-white rounded-2xl shadow-lg border-t-4 border-slate-900 max-w-4xl mx-auto overflow-hidden relative">
+                        <div class="absolute inset-0 bg-gradient-to-b from-transparent to-slate-50 z-0"></div>
+                        
+                        <div class="p-8 md:p-16 text-center relative z-10">
+                            <h3 class="text-3xl font-black text-slate-900 mb-6">【結論】</h3>
+                            <p class="text-xl text-slate-700 leading-relaxed mb-8">
+                                上半期の先行投資フェーズ（Scale）は成功し、1月度にはその成果が<strong>「粗利率10%突破」</strong>として表れました。<br><br>
+                                我々は今、Jカーブの底を抜け、<br>
+                                <strong class="text-teal-700 text-2xl border-b-2 border-teal-300 py-1 inline-block mt-2 mb-4">圧倒的なキャッシュフローを生む「収益爆発期」</strong><br>
+                                の入り口に立っています。<br><br>
+                                下期は採用・教育の効率化を徹底し、「利益体質」への転換を確実なものにしていきましょう。
+                            </p>
+                            
+                            <div class="inline-block bg-slate-900 text-white font-bold py-3 px-8 rounded-full shadow-md mt-4">
+                                株式会社 NEXT CONSTRUCTION
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="mt-16 text-center no-print">
+                        <a href="#section-1" class="text-slate-400 hover:text-slate-800 underline text-sm transition-colors cursor-pointer font-medium">
+                            ↑ ページトップへ戻る
+                        </a>
+                    </div>
+                </div>
+            </section>
+            
+            <!-- Footer -->
+            <footer class="text-center py-8 text-slate-400 text-sm border-t border-slate-200 print:mt-10 mb-16 xl:mb-0">
+                <p>&copy; <span id="year"></span> 株式会社NEXT CONSTRUCTION. All Rights Reserved.</p>
+            </footer>
+
+        </div>
+    </main>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            document.getElementById('year').textContent = '2026';
+
+            const sections = document.querySelectorAll('section');
+            const navLinks = document.querySelectorAll('.nav-link');
+            
+            const appearOptions = { threshold: 0.15, rootMargin: "0px 0px -50px 0px" };
+            const appearOnScroll = new IntersectionObserver(function(entries, observer) {
+                entries.forEach(entry => {
+                    if (!entry.isIntersecting) return;
+                    entry.target.classList.add('is-visible');
+                    
+                    if(entry.target.id === 'section-4') renderSalesOnlyChart();
+                    if(entry.target.id === 'section-5') renderGrowthChart();
+                    if(entry.target.id === 'section-6') renderCostChart();
+                    if(entry.target.id === 'section-9') renderLiquidityChart();
+                    if(entry.target.id === 'section-15') renderRecruitFunnelChart();
+                    
+                    observer.unobserve(entry.target);
+                });
+            }, appearOptions);
+
+            sections.forEach(section => appearOnScroll.observe(section));
+
+            const spyOptions = { threshold: 0.4 };
+            const sectionSpy = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if(entry.isIntersecting) {
+                        navLinks.forEach(link => {
+                            link.classList.remove('bg-slate-800');
+                            if(link.classList.contains('text-teal-300') || link.classList.contains('text-amber-300')) {
+                                link.classList.remove('text-white');
+                            } else {
+                                link.classList.remove('text-teal-400');
+                            }
+
+                            if(link.dataset.target === entry.target.id) {
+                                link.classList.add('bg-slate-800');
+                                if(link.classList.contains('text-teal-300') || link.classList.contains('text-amber-300')) {
+                                    link.classList.add('text-white');
+                                } else {
+                                    link.classList.add('text-teal-400');
+                                }
+                            }
+                        });
+                    }
+                });
+            }, spyOptions);
+
+            sections.forEach(section => sectionSpy.observe(section));
+
+            window.addEventListener('beforeprint', () => {
+                renderSalesOnlyChart();
+                renderGrowthChart();
+                renderCostChart();
+                renderLiquidityChart();
+                renderRecruitFunnelChart();
+            });
+        });
+
+        function toggleMobileMenu() {
+            document.getElementById('mobile-menu').classList.toggle('hidden');
+        }
+
+        Chart.register(ChartDataLabels);
+
+        const colTeal = '#0f766e';
+        const colRose = '#e11d48';
+        const colSlate = '#334155';
+        const colAmber = '#f59e0b';
+        Chart.defaults.font.family = "'Noto Sans JP', sans-serif";
+        Chart.defaults.color = '#64748b';
+
+        let salesOnlyChartInstance = null;
+        function renderSalesOnlyChart() {
+            if(salesOnlyChartInstance) return;
+            const ctx = document.getElementById('salesOnlyChart').getContext('2d');
+            salesOnlyChartInstance = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: ['23/07', '24/01', '24/07', '25/01', '25/07', '26/01'],
+                    datasets: [{
+                        label: '月商規模 (万円)',
+                        data: [60, 500, 1000, 2090, 4000, 6492],
+                        borderColor: '#ea580c',
+                        backgroundColor: 'rgba(245, 158, 11, 0.1)',
+                        borderWidth: 4,
+                        pointBackgroundColor: ['#fff', '#fff', '#fff', '#fff', '#fff', '#f59e0b'],
+                        pointBorderColor: '#ea580c',
+                        pointRadius: [6, 6, 6, 6, 6, 8],
+                        fill: true,
+                        tension: 0.4,
+                        animation: { duration: 1500, easing: 'easeOutQuart' }
+                    }]
+                },
+                options: { 
+                    responsive: true, maintainAspectRatio: false, 
+                    plugins: { 
+                        legend: { display: false },
+                        datalabels: { 
+                            anchor: 'end', align: 'top', color: '#ea580c', font: { weight: 'bold', size: 14 },
+                            formatter: (value, context) => {
+                                if(context.dataIndex === 0 || context.dataIndex === 3 || context.dataIndex === 5) return value + '万';
+                                return '';
+                            }
+                        }
+                    }, 
+                    scales: { y: { min: 0, max: 7500 } } 
+                }
+            });
+        }
+
+        let growthChartInstance = null;
+        function renderGrowthChart() {
+            if(growthChartInstance) return;
+            const ctx = document.getElementById('growthChart').getContext('2d');
+            growthChartInstance = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: ['7月', '8月', '9月', '10月', '11月', '12月', '1月'],
+                    datasets: [
+                        { 
+                            label: '月間売上 (万円)', 
+                            data: [5365, 5346, 5692, 5975, 6175, 6397, 6492], 
+                            backgroundColor: ['#2dd4bf', '#2dd4bf', '#2dd4bf', '#2dd4bf', '#2dd4bf', '#2dd4bf', '#fcd34d'],
+                            borderRadius: 4, yAxisID: 'y', order: 2, animation: { duration: 1000 }, 
+                            datalabels: { align: 'center', color: (ctx) => ctx.dataIndex === 6 ? '#b45309' : '#fff', font: {weight: 'bold', size: 11} } 
+                        },
+                        { 
+                            label: '稼働人数 (名)', 
+                            data: [105, 110, 112, 116, 120, 122, 124], 
+                            type: 'line', borderColor: colSlate, borderWidth: 3, 
+                            pointBackgroundColor: ['#334155', '#334155', '#334155', '#334155', '#334155', '#334155', '#f59e0b'],
+                            pointRadius: [5, 5, 5, 5, 5, 5, 7], yAxisID: 'y1', order: 1, animation: { duration: 1500, delay: 300 }, 
+                            datalabels: { align: 'bottom', anchor: 'bottom', color: colSlate, font: {weight: 'bold', size: 12} } 
+                        }
+                    ]
+                },
+                options: { 
+                    responsive: true, maintainAspectRatio: false, 
+                    plugins: { legend: { position: 'top' }, tooltip: { mode: 'index', intersect: false } }, 
+                    scales: { 
+                        y: { min: 0, max: 8000 }, 
+                        y1: { position: 'right', min: 0, max: 150, grid: {drawOnChartArea: false} } 
+                    } 
+                }
+            });
+        }
+
+        let costChartInstance = null;
+        function renderCostChart() {
+            if(costChartInstance) return;
+            const ctx = document.getElementById('costChart').getContext('2d');
+            costChartInstance = new Chart(ctx, {
+                type: 'doughnut',
+                data: { labels: ['派遣人件費 (65.9%)', '業務制作費 (23.0%)', 'その他原価 (3.8%)', '粗利益 (7.3%)'], datasets: [{ data: [229.5, 80.2, 13.2, 25.4], backgroundColor: ['#94a3b8', colRose, '#e2e8f0', colTeal], borderWidth: 2, borderColor: '#ffffff', hoverOffset: 10 }] },
+                options: { 
+                    responsive: true, maintainAspectRatio: false, cutout: '60%', 
+                    plugins: { 
+                        legend: { position: 'bottom', labels: { boxWidth: 12 } },
+                        datalabels: {
+                            color: '#fff', font: { weight: 'bold', size: 14 },
+                            formatter: (value) => {
+                                const percent = Math.round((value / 348.3) * 100);
+                                return percent > 5 ? percent + '%' : ''; 
+                            }
+                        }
+                    }, 
+                    animation: { animateScale: true, animateRotate: true, duration: 1000 } 
+                }
+            });
+        }
+
+        let liquidityChartInstance = null;
+        function renderLiquidityChart() {
+            if(liquidityChartInstance) return;
+            const ctx = document.getElementById('liquidityChart').getContext('2d');
+            liquidityChartInstance = new Chart(ctx, {
+                type: 'bar',
+                data: { labels: ['7月末', '12月末'], datasets: [{ label: '現預金残高 (万円)', data: [2747, 6134], backgroundColor: ['#94a3b8', '#10b981'], borderRadius: 4, animation: { duration: 1200 } }] },
+                options: { 
+                    responsive: true, maintainAspectRatio: false, 
+                    plugins: { 
+                        legend: { display: false },
+                        datalabels: { anchor: 'end', align: 'top', color: colSlate, font: { weight: 'bold', size: 14 } }
+                    }, 
+                    scales: { y: { min: 0, max: 8000 } } 
+                }
+            });
+        }
+
+        let recruitFunnelChartInstance = null;
+        function renderRecruitFunnelChart() {
+            if(recruitFunnelChartInstance) return;
+            const ctx = document.getElementById('funnelChart').getContext('2d');
+            
+            recruitFunnelChartInstance = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: ['1. 全体応募', '2. 有効数', '3. 面接数', '4. 内定数', '5. 承諾'],
+                    datasets: [
+                        {
+                            label: 'エージェント (高コスト・高確度)',
+                            data: [40, 40, 18, 7, 5],
+                            backgroundColor: '#e11d48',
+                            stack: 'Stack 0',
+                            animation: { duration: 1000, delay: 200 },
+                            datalabels: { color: '#fff', font: { weight: 'bold' } }
+                        },
+                        {
+                            label: '媒体 (歩留まり課題)',
+                            data: [38, 18, 6, 0, 0],
+                            backgroundColor: '#f59e0b',
+                            stack: 'Stack 0',
+                            animation: { duration: 1000, delay: 400 },
+                            datalabels: { color: '#fff', font: { weight: 'bold' } }
+                        },
+                        {
+                            label: 'SNS (歩留まり課題)',
+                            data: [29, 17, 5, 0, 0],
+                            backgroundColor: '#8b5cf6',
+                            stack: 'Stack 0',
+                            animation: { duration: 1000, delay: 600 },
+                            datalabels: { color: '#fff', font: { weight: 'bold' } }
+                        }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: { position: 'top' },
+                        tooltip: { mode: 'index', intersect: false },
+                        datalabels: { formatter: (value) => value > 0 ? value : '' }
+                    },
+                    scales: {
+                        x: { stacked: true },
+                        y: { stacked: true, title: {display: true, text: '人数 (名)'} }
+                    }
+                }
+            });
+        }
+    </script>
+</body>
+</html>
